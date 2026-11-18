@@ -1,3 +1,5 @@
 results/*
 demo
 gpuconbench
+CSV_FILE
+*.gz

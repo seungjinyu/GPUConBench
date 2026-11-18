@@ -20,7 +20,9 @@ const (
 	address         = "192.168.250.1:5002"
 	headerSize      = 16
 	ackSize         = 68
-	maxPayloadBytes = 1024 * 1024 * 16
+	maxPayloadBytes = 1024 * 1024 * 200
+
+	requestTimeout = 120 * time.Second
 )
 
 type StageMetrics struct {
@@ -137,7 +139,7 @@ func handleConnection(conn net.Conn, acceptedAt time.Time, verify bool) {
 	handlerStart := time.Now()
 	defer conn.Close()
 
-	if err := conn.SetDeadline(time.Now().Add(30 * time.Second)); err != nil {
+	if err := conn.SetDeadline(time.Now().Add(requestTimeout)); err != nil {
 		fmt.Println("Deadline error:", err)
 		return
 	}
@@ -244,8 +246,8 @@ func runSender(
 		return fmt.Errorf("con must be between 1 and 128")
 	}
 
-	if payloadKiB < 1 || payloadKiB > 16*1024 {
-		return fmt.Errorf("payload-kib must be between 1 and 16384")
+	if payloadKiB < 1 || payloadKiB > maxPayloadBytes / 1024 {
+		return fmt.Errorf("payload-kib must be between 1 and %d",maxPayloadBytes/1024)
 	}
 	if warmup < 0 {
 		return fmt.Errorf("warmup must be >= 0")
@@ -436,7 +438,7 @@ func sendRequest(id int, payload []byte) RequestResult {
 	}
 	defer conn.Close()
 
-	if err := conn.SetDeadline(time.Now().Add(30 * time.Second)); err != nil {
+	if err := conn.SetDeadline(time.Now().Add(requestTimeout)); err != nil {
 		result.Err = err
 		return result
 	}
