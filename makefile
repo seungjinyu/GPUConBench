@@ -1,4 +1,4 @@
-.PHONY: all tcp shm clean 
+.PHONY: all tcp shm shmr shms clean 
 
 all: tcp shm 
 
@@ -9,6 +9,12 @@ tcp:
 shm: 
 	@mkdir -p build 
 	go build -o build/shmbench ./cmd/shmbench
+
+shmr:
+	./build/shmbench receiver
+	
+shms:
+	./build/shmbench sender
 
 clean:
 	rm -rf build
