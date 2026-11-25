@@ -8,8 +8,8 @@ SHM="/dev/shm/gpuconbench-shm-test"
 SOCK="/tmp/gpuconbench-shm-test.sock"
 
 # Physical Ethernet Small experiment baseline
-sizes=("4MiB" "16MiB" "32MiB" "64MiB" "100MiB")
-cons=(1 2 4 8 )
+sizes=("32MiB" "64MiB" "100MiB")
+cons=(16 32)
 
 warmup=10
 repeats=100

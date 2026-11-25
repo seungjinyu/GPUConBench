@@ -1,3 +1,23 @@
 results/*
 *.gz
 build/*
+analysis/
+
+# Generated Python files
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Experimental datasets
+*.csv
+*.pt
+*.pth
+*.npy
+*.npz
+
+# Local environments
+.venv/
+
+# Local archives
+*.zip
+.DS_Store
